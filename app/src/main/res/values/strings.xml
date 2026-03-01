@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Fluid Cloud Extension</string>
+    <string name="module_description">Xposed module for modifying ColorOS system UI\nThis module is completely free and will be open-sourced at an appropriate time\nDeveloper: MouZuan</string>
+    <string name="main_title">Visual Restoration &amp; Enhancement\n• UI Beautification Expansion</string>
+    <string name="config_modify">Modify Configuration</string>
+    <string name="module_status">⊹.✮₊⋆Disabled⋆₊✮.⊹</string>
+    <string name="module_status1">⊹.✮₊⋆Enabled⋆₊✮.⊹</string>
+    <string name="version_info">Module Version: 1.0.1</string>
+    <string name="more_magic">More features coming soon…</string>
+    <string name="module_intro">This Xposed module is used to modify and beautify ColorOS system UI. A restart of the target scope is required for changes to take effect.</string>
+    <string name="overview_title">Overview</string>
+    <string name="announcement_content">1.0.1 Changelog\n    1. Minimum support Android 14 for installation, functions only available on Android 15 and above\n    2. Optimized partial interface UI\n    3. Project language switched to Kotlin\n    4. Added English support (machine translation)\n    5. New features: Silent tile, OTG tile; Optimized 2x1 tile background to white transparent\n    6. Signature updated, please uninstall old version before reinstalling\n    7. Config file moved to private directory, reduced some app permissions\n    8. Added non-mandatory Root permission acquisition function</string>
+    <string name="root_granted">Root permission granted</string>
+    <string name="root_failed">Root request failed, some functions may not work</string>
+    <string name="permission_storage_denied">Storage permission denied, some functions may not work</string>
+    <string name="permission_storage_required">Storage permission is required to read and write configuration files</string>
+    <string name="permission_manage_storage_title">All files access required</string>
+    <string name="permission_manage_storage_message">To read and write configuration files, please grant "All files access" in settings.</string>
+    <string name="permission_go_to_settings">Go to Settings</string>
+    <string name="permission_exit">Exit</string>
+
+    <!-- Second-level pages -->
+    <string name="fluid_cloud_position">Fluid Cloud Position</string>
+    <string name="hint_left_margin">Left Margin</string>
+    <string name="hint_right_margin">Right Margin</string>
+    <string name="button_submit">Submit</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="music_shape_label">Music Background Shape</string>
+    <string name="ringer_toggle">Silent Tile</string>
+    <string name="home">Home</string>
+    <string name="about">About</string>
+    <string name="otg_toggle">OTG Tile</string>
+    <string name="tile_2x1_background_fill">2x1 Tile Background Fill</string>
+
+    <!-- Toast -->
+    <string name="toast_load_config_failed">Failed to load configuration</string>
+    <string name="toast_invalid_values">Please enter valid values</string>
+    <string name="toast_save_success">Configuration saved. Restart SystemUI to apply changes.</string>
+    <string name="toast_save_failed">Save failed</string>
+    <string name="about_text">About This Module</string>
+
+    <!-- Restart scope -->
+    <string name="restart_scope">Restart Scope</string>
+    <string name="systemui_restart_success">SystemUI restarted</string>
+    <string name="systemui_restart_failed">Restart failed, please check root permission</string>
+    <string name="systemui_restart_error">Restart exception: %s</string>
+</resources>

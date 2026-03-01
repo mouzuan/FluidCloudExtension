@@ -1,0 +1,204 @@
+// ChoccyIDE Classpath Export Script
+allprojects {
+    task choccyExportClasspath {
+        doLast {
+            def classpathInfo = [
+                'projectName': project.name,
+                'projectPath': project.projectDir.absolutePath,
+                'classpath': [],
+                'sourceDirs': [],
+                'androidSdk': null,
+                'kotlinVersion': null,
+                'javaVersion': null,
+                'compileSdkVersion': null
+            ]
+            
+            // 获取 Android SDK 路径和编译版本
+            if (project.hasProperty('android')) {
+                try {
+                    classpathInfo['androidSdk'] = project.android.sdkDirectory?.absolutePath
+                    
+                    // 获取 compileSdkVersion
+                    def compileSdk = null
+                    if (project.android.hasProperty('compileSdkVersion')) {
+                        compileSdk = project.android.compileSdkVersion
+                    } else if (project.android.hasProperty('compileSdk')) {
+                        compileSdk = project.android.compileSdk
+                    }
+                    classpathInfo['compileSdkVersion'] = compileSdk?.toString()
+                    
+                    // 添加 android.jar 到 classpath（这是最重要的！）
+                    if (classpathInfo['androidSdk'] != null && compileSdk != null) {
+                        def androidJar = new File(classpathInfo['androidSdk'], "platforms/android-${compileSdk}/android.jar")
+                        if (androidJar.exists()) {
+                            classpathInfo['classpath'] << androidJar.absolutePath
+                        }
+                    }
+                    
+                    // 添加 Android 构建工具生成的类（如 R 类、BuildConfig、ViewBinding 等）
+                    def buildDir = project.buildDir
+                    def intermediatesDir = new File(buildDir, 'intermediates')
+                    
+                    // R.jar (Android 资源类)
+                    def rJarDirs = [
+                        new File(intermediatesDir, 'compile_and_runtime_not_namespaced_r_class_jar'),
+                        new File(intermediatesDir, 'compile_r_class_jar'),
+                        new File(intermediatesDir, 'runtime_r_class_jar'),
+                    ]
+                    rJarDirs.each { dir ->
+                        if (dir.exists()) {
+                            dir.eachFileRecurse { file ->
+                                if (file.name.endsWith('.jar')) {
+                                    classpathInfo['classpath'] << file.absolutePath
+                                }
+                            }
+                        }
+                    }
+                    
+                    // ViewBinding/DataBinding 生成的源代码目录
+                    def generatedDir = new File(buildDir, 'generated')
+                    if (generatedDir.exists()) {
+                        // data_binding_base_class_source_out 包含 ViewBinding 生成的类
+                        def viewBindingDirs = [
+                            new File(generatedDir, 'data_binding_base_class_source_out'),
+                            new File(generatedDir, 'source/dataBinding'),
+                            new File(generatedDir, 'source/kapt'),
+                            new File(generatedDir, 'source/ksp'),
+                        ]
+                        viewBindingDirs.each { dir ->
+                            if (dir.exists()) {
+                                dir.eachDir { variantDir ->
+                                    classpathInfo['sourceDirs'] << variantDir.absolutePath
+                                }
+                            }
+                        }
+                        
+                        // ap_generated_sources 包含注解处理器生成的类
+                        def apDir = new File(generatedDir, 'ap_generated_sources')
+                        if (apDir.exists()) {
+                            apDir.eachFileRecurse { file ->
+                                if (file.isDirectory() && (file.name == 'java' || file.name == 'kotlin')) {
+                                    classpathInfo['sourceDirs'] << file.absolutePath
+                                }
+                            }
+                        }
+                    }
+                    
+                    // intermediates 中的 ViewBinding 目录
+                    def dataBindingDir = new File(intermediatesDir, 'data_binding_base_class_source_out')
+                    if (dataBindingDir.exists()) {
+                        dataBindingDir.eachDir { variantDir ->
+                            classpathInfo['sourceDirs'] << variantDir.absolutePath
+                        }
+                    }
+                    
+                    // 编译后的类目录（包含 ViewBinding 编译后的 class 文件）
+                    def kotlinClassesDir = new File(buildDir, 'tmp/kotlin-classes')
+                    if (kotlinClassesDir.exists()) {
+                        kotlinClassesDir.eachDir { variantDir ->
+                            classpathInfo['classpath'] << variantDir.absolutePath
+                        }
+                    }
+                    
+                    // intermediates/classes 目录
+                    def classesDir = new File(intermediatesDir, 'classes')
+                    if (classesDir.exists()) {
+                        classesDir.eachFileRecurse { file ->
+                            if (file.isDirectory() && file.listFiles()?.any { it.name.endsWith('.class') }) {
+                                classpathInfo['classpath'] << file.absolutePath
+                            }
+                        }
+                    }
+                    
+                    def javaClassesDir = new File(intermediatesDir, 'javac')
+                    if (javaClassesDir.exists()) {
+                        javaClassesDir.eachFileRecurse { file ->
+                            if (file.isDirectory() && file.name == 'classes') {
+                                classpathInfo['classpath'] << file.absolutePath
+                            }
+                        }
+                    }
+                } catch (e) {
+                    println "Warning: Failed to get Android config: ${e.message}"
+                }
+            }
+            
+            // 获取编译 classpath
+            configurations.each { config ->
+                if (config.name.contains('CompileClasspath') || 
+                    config.name.contains('compileClasspath') ||
+                    config.name == 'implementation' ||
+                    config.name == 'api') {
+                    try {
+                        if (config.canBeResolved) {
+                            config.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+                                classpathInfo['classpath'] << artifact.file.absolutePath
+                            }
+                        }
+                    } catch (e) {
+                        // Configuration might not be resolvable
+                    }
+                }
+            }
+            
+            // 获取源代码目录
+            if (project.hasProperty('sourceSets')) {
+                project.sourceSets.each { sourceSet ->
+                    sourceSet.allSource.srcDirs.each { dir ->
+                        if (dir.exists()) {
+                            classpathInfo['sourceDirs'] << dir.absolutePath
+                        }
+                    }
+                }
+            }
+            
+            // Android 项目的源代码目录
+            if (project.hasProperty('android')) {
+                try {
+                    project.android.sourceSets.each { sourceSet ->
+                        sourceSet.java.srcDirs.each { dir ->
+                            if (dir.exists()) {
+                                classpathInfo['sourceDirs'] << dir.absolutePath
+                            }
+                        }
+                        sourceSet.kotlin.srcDirs.each { dir ->
+                            if (dir.exists()) {
+                                classpathInfo['sourceDirs'] << dir.absolutePath
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // ignore
+                }
+            }
+            
+            // 获取 Kotlin 版本
+            if (project.hasProperty('kotlin')) {
+                try {
+                    classpathInfo['kotlinVersion'] = project.kotlin.coreLibrariesVersion
+                } catch (e) {
+                    // ignore
+                }
+            }
+            
+            // 获取 Java 版本
+            if (project.hasProperty('java')) {
+                try {
+                    classpathInfo['javaVersion'] = project.java.sourceCompatibility?.toString()
+                } catch (e) {
+                    // ignore
+                }
+            }
+            
+            // 去重
+            classpathInfo['classpath'] = classpathInfo['classpath'].unique()
+            classpathInfo['sourceDirs'] = classpathInfo['sourceDirs'].unique()
+            
+            // 输出 JSON
+            def json = groovy.json.JsonOutput.toJson(classpathInfo)
+            println "CHOCCY_CLASSPATH_BEGIN"
+            println json
+            println "CHOCCY_CLASSPATH_END"
+        }
+    }
+}

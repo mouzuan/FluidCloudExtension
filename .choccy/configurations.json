@@ -1,0 +1,18 @@
+{
+  "runConfigs": [
+    {
+      "id": "1772171990765",
+      "name": "Android 构建",
+      "languageId": "kotlin",
+      "templateId": "android_build",
+      "toolchainId": null,
+      "values": {
+        "buildType": "debug",
+        "module": "app"
+      },
+      "beforeRunCommands": [],
+      "androidRunMode": "cli"
+    }
+  ],
+  "activeRunConfigId": "1772171990765"
+}

@@ -1,0 +1,43 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.colorfluidcloud.hook'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.colorfluidcloud.hook'
+        minSdk 34          // 建议降低 minSdk 以获得更好的兼容性
+        targetSdk 35       // 必须 >= minSdk
+        versionCode 2
+        versionName '1.0.1'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+}
+
+dependencies {
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.constraintlayout
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'com.github.Dimezis:BlurView:version-2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    compileOnly 'de.robv.android.xposed:api:82'
+}

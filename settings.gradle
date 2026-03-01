@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // 添加 Xposed 专用仓库
+        maven { url 'https://api.xposed.info/' }
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+rootProject.name = "Fluid_Cloud_Extension"
+
+include(":app")

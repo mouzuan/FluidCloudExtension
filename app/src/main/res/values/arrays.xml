@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LSPosed 推荐作用域配置 -->
+    <string-array name="xposedscope">
+    
+        <!-- 系统界面 -->
+        <item>com.android.systemui</item>
+        <!-- SystemUIPlugin -->
+        <item>com.oplus.systemui.plugins</item>
+        <!-- 自身包名 作用未知 -->
+        <item>com.colorfluidcloud.hook</item>
+        
+    </string-array>
+</resources>

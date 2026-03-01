@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">流体云扩展</string>
+    <string name="module_description">对 ColorOS 系统UI进行更改的 Xposed 模块\n模块完全免费，并在合适时刻进行开源\n开发者：某钻</string>
+    <string name="main_title">视觉焕旧方法\n​ • UI美化拓展</string>
+    <string name="config_modify">修改配置</string>
+    <string name="module_status">⊹.✮₊⋆未启用⋆₊✮.⊹</string>
+    <string name="module_status1">⊹.✮₊⋆已启用⋆₊✮.⊹</string>
+    <string name="version_info">模块版本：1.0.1</string>
+    <string name="more_magic">更多功能开发中…</string>
+    <string name="module_intro">该 Xposed 模块用于修改 ColorOS 系统UI进行修改美化，需重启目标作用域才能生效哦~</string>
+    <string name="overview_title">总    览</string>
+    <string name="announcement_content">1.0.1 更新日志\n    1. 最低支持 Android 14 安装，功能仅限 Android 15 及以上可用\n    2. 优化部分界面 UI\n    3. 项目语言切换为 Kotlin\n    4. 新增英文支持（机器翻译）\n    5. 新增功能：静音磁贴、OTG 磁贴；2x1 磁贴背景优化为白色透明\n    6. 签名更新，需卸载旧版后重新安装\n    7. 性能优化\n    8. 新增非强制 Root 权限获取功能</string>
+    <string name="root_granted">已获取超级用户权限</string>
+    <string name="root_failed">Root申请失败，部分功能将无法使用</string>
+    <string name="permission_storage_denied">存储权限被拒绝，部分功能将无法使用</string>
+    <string name="permission_storage_required">需要存储权限才能读写配置文件</string>
+    <string name="permission_manage_storage_title">需要所有文件访问权限</string>
+    <string name="permission_manage_storage_message">为了读写配置文件，请在设置中授予“所有文件访问权限”。</string>
+    <string name="permission_go_to_settings">去设置</string>
+    <string name="permission_exit">退出</string>
+
+    <!-- 二级页面 -->
+    <string name="fluid_cloud_position">流体云位置</string>
+    <string name="hint_left_margin">左间距</string>
+    <string name="hint_right_margin">右间距</string>
+    <string name="button_submit">提交</string>
+    <string name="miscellaneous">杂项</string>
+    <string name="music_shape_label">音乐背景形状</string>
+    <string name="ringer_toggle">静音磁铁</string>
+    <string name="home">主页</string>
+    <string name="about">关于</string>
+    <string name="otg_toggle">OTG 磁贴</string>
+    <string name="tile_2x1_background_fill">2x1磁贴背景填满</string>
+
+    <!-- 提示 -->
+    <string name="toast_load_config_failed">加载配置失败</string>
+    <string name="toast_invalid_values">请输入有效数值</string>
+    <string name="toast_save_success">配置已保存，重启系统UI生效</string>
+    <string name="toast_save_failed">保存失败</string>
+    <string name="about_text">关于本模块</string>
+
+    <!-- 重启作用域相关 -->
+    <string name="restart_scope">重启作用域</string>
+    <string name="systemui_restart_success">SystemUI 已重启</string>
+    <string name="systemui_restart_failed">重启失败，请检查 root 权限</string>
+    <string name="systemui_restart_error">重启异常: %s</string>
+</resources>
